@@ -5,7 +5,9 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     // public GameObject attackEffectPrefab; // 공격 이펙트 프리팹
+    [SerializeField]
     public Transform attackPoint; // 공격 지점
+    [SerializeField]
     public float attackRange = 2f; // 공격 범위
     public int damageAmount = 10; // 공격력
     public float attackCooldown = 1f; // 공격 쿨다운 시간
@@ -25,12 +27,12 @@ public class PlayerAttack : MonoBehaviour
         // 공격 쿨다운 시작
         StartCoroutine(AttackCooldown());
 
-        Collider2D[] hit = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, LayerMask.GetMask("Enemy"));
+        Collider2D[] hit = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, LayerMask.GetMask("Boss"));
         foreach(Collider2D enemy in hit)
         {
             if (enemy != null)
             {
-                if (enemy.gameObject.CompareTag("Enemy"))
+                if (enemy.gameObject.CompareTag("Boss"))
                 {
                     enemy.gameObject.SetActive(false);
                 }
