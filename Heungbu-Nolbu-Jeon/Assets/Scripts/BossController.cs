@@ -77,6 +77,13 @@ public class BossController : MonoBehaviour
             StartCoroutine(HealCoroutine());
         }
 
+        if (GameManager.instance.curHp <= 1200.0f)
+        {
+            Debug.Log("스킬 제ㅂ트기!!");
+            gameObject.SetActive(false);
+            ChangeState(BossState.Zet);
+        }
+
         if (GameManager.instance.curHp == 0)
         {
             // 보스 죽을 때 실행할 로직
