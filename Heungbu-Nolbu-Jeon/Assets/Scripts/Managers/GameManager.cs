@@ -10,10 +10,11 @@ public class GameManager : MonoBehaviour
     private Slider bossHpBar;
 
     public float bossMaxHp = 2000;
-    public float curHp = 2000;
+    public float curHp;
 
     private void Start()
     {
+        curHp = bossMaxHp;
         bossHpBar.value = (float)curHp / (float)bossMaxHp;
     }
 
@@ -42,8 +43,8 @@ public class GameManager : MonoBehaviour
         HandleHp();
     }
 
-    private void HandleHp()
+    public void HandleHp()
     {
-        bossHpBar.value = curHp / bossMaxHp;
+        bossHpBar.value = (float)curHp / (float)bossMaxHp;
     }
 }

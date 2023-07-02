@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class BossController : MonoBehaviour
 {
-    private enum BossState
+    public enum BossState
     {
-        Idle,
         Move,
         BasicAttack,
-        Skill
+        Heal,
+        Zet     // 제ㅂ트기 스킬 
     }
 
     private BossState currentState;
@@ -26,8 +26,11 @@ public class BossController : MonoBehaviour
     [SerializeField]
     private Transform attackPoint;
 
-    private bool canAttack = true;
+    [SerializeField]
+    private float healCooldown = 5.0f;
 
+    private bool canAttack = true;
+    private bool canHeal = true;
 
     private void Start()
     {
@@ -41,18 +44,15 @@ public class BossController : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(attackPoint.position, playerDir * (-1), attackRange, LayerMask.GetMask("Player"));
         if (hit.collider != null && canAttack)
         {
-            ChangeState(2);
+            ChangeState(BossState.BasicAttack);
         }
         else
         {
-            ChangeState(1);
+            ChangeState(BossState.Move);
         }
 
         switch (currentState)
         {
-            case BossState.Idle:
-                // Animation 실행
-                break;
             case BossState.Move:
                 // 플레이어를 따라 움직임
                 if (canAttack == true)
@@ -62,9 +62,19 @@ public class BossController : MonoBehaviour
                 // 공격
                 Attack();
                 break;
-            case BossState.Skill:
+            case BossState.Heal:
+                // 한약마시기
+                break;
+            case BossState.Zet:
                 // skill : 제ㅂ트기
                 break;
+        }
+
+        if (GameManager.instance.curHp <= 1000.0f && currentState != BossState.Heal && canHeal)
+        {
+            Debug.Log("스킬! 한약마시기!");
+            ChangeState(BossState.Heal);
+            StartCoroutine(HealCoroutine());
         }
 
         if (GameManager.instance.curHp == 0)
@@ -91,6 +101,22 @@ public class BossController : MonoBehaviour
         bulletRigid.AddForce(playerDirection * 20, ForceMode2D.Impulse);
     }
 
+    private IEnumerator HealCoroutine()
+    {
+        while (currentState == BossState.Heal)
+        {   
+            GameManager.instance.curHp += 400;
+            canHeal = false;
+            GameManager.instance.curHp = Mathf.Clamp(GameManager.instance.curHp, 0, GameManager.instance.bossMaxHp);
+
+            Debug.Log("힐 끝남");
+            GameManager.instance.HandleHp();
+            yield return new WaitForSeconds(healCooldown);
+        }
+
+        ChangeState(BossState.Move);
+    }
+
     private IEnumerator AttackCooldown()
     {
         canAttack = false;
@@ -100,15 +126,8 @@ public class BossController : MonoBehaviour
         canAttack = true;
     }
 
-    public void ChangeState(int stateNum)
+    public void ChangeState(BossState newState)
     {
-        if (stateNum == 0)
-            currentState = BossState.Idle;
-        else if (stateNum == 1)
-            currentState = BossState.Move;
-        else if (stateNum == 2)
-            currentState = BossState.BasicAttack;
-        else if (stateNum == 3)
-            currentState = BossState.Skill;
+        currentState = newState;
     }
 }
