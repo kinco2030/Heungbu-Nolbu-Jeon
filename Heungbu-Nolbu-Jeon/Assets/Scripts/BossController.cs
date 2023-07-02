@@ -66,6 +66,12 @@ public class BossController : MonoBehaviour
                 // skill : 제ㅂ트기
                 break;
         }
+
+        if (GameManager.instance.curHp == 0)
+        {
+            // 보스 죽을 때 실행할 로직
+            Debug.Log("보스 죽음");
+        }
     }
 
     private void Move()

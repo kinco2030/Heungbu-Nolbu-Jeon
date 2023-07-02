@@ -7,9 +7,9 @@ public class Bullet : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Wall"))
-            gameObject.SetActive(false);
+            Destroy(gameObject);
 
         if (collision.CompareTag("Player"))
-            gameObject.SetActive(false);
+            Destroy(gameObject);
     }
 }

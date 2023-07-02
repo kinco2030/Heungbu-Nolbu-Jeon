@@ -34,7 +34,7 @@ public class PlayerAttack : MonoBehaviour
             {
                 if (enemy.gameObject.CompareTag("Boss"))
                 {
-                    enemy.gameObject.SetActive(false);
+                    GameManager.instance.BossGetDamage();
                 }
             }
         }
