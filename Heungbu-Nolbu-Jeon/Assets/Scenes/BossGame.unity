@@ -782,7 +782,7 @@ MonoBehaviour:
   player: {fileID: 2007416707}
   movementSpeed: 5
   attackRange: 10
-  attackCooldown: 2
+  attackCooldown: 1
   attackPoint: {fileID: 511227329}
   healCooldown: 5
 --- !u!1 &330701426
