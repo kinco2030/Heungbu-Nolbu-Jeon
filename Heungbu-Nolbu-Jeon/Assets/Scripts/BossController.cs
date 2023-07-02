@@ -14,12 +14,18 @@ public class BossController : MonoBehaviour
 
     private BossState currentState;
 
+    public GameObject bulletObj;
+
     public Transform player;
     public float movementSpeed = 3.0f;
+
     [SerializeField]
-    private float attackRange = 5.0f;
+    private float attackRange = 10.0f;
     [SerializeField]
-    private float attackCooldown = 5.0f;
+    private float attackCooldown;
+    [SerializeField]
+    private Transform attackPoint;
+
     private bool canAttack = true;
 
 
@@ -31,8 +37,9 @@ public class BossController : MonoBehaviour
     private void Update()
     {
         // 플레이어와의 거리 계산
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        if (distanceToPlayer <= attackRange && canAttack)
+        Vector2 playerDir = (attackPoint.position - player.position).normalized;
+        RaycastHit2D hit = Physics2D.Raycast(attackPoint.position, playerDir * (-1), attackRange, LayerMask.GetMask("Player"));
+        if (hit.collider != null && canAttack)
         {
             ChangeState(2);
         }
@@ -48,7 +55,8 @@ public class BossController : MonoBehaviour
                 break;
             case BossState.Move:
                 // 플레이어를 따라 움직임
-                Move();
+                if (canAttack == true)
+                    Move();
                 break;
             case BossState.BasicAttack:
                 // 공격
@@ -70,7 +78,11 @@ public class BossController : MonoBehaviour
     private void Attack()
     {
         StartCoroutine(AttackCooldown());
-        Debug.Log("플레이어 공격!!!!");
+        
+        Vector2 playerDirection = (player.position - attackPoint.position).normalized;
+        GameObject bullet = Instantiate(bulletObj, attackPoint.position, attackPoint.rotation);
+        Rigidbody2D bulletRigid = bullet.GetComponent<Rigidbody2D>();
+        bulletRigid.AddForce(playerDirection * 20, ForceMode2D.Impulse);
     }
 
     private IEnumerator AttackCooldown()
