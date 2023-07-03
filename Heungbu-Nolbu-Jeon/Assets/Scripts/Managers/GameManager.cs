@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -12,10 +13,17 @@ public class GameManager : MonoBehaviour
     public float bossMaxHp = 2000;
     public float curHp;
 
+    public string gameState = "playing";
+
     private void Start()
     {
         curHp = bossMaxHp;
         bossHpBar.value = (float)curHp / (float)bossMaxHp;
+    }
+    
+    public void ResetBossHealth()
+    {
+        curHp = bossMaxHp;
     }
 
     public static GameManager instance = null;
@@ -35,11 +43,16 @@ public class GameManager : MonoBehaviour
     }
 
     public void BossGetDamage()
-    {
+    { 
         if (curHp > 0)
             curHp -= 200;
         else
+        {
             curHp = 0;
+            Time.timeScale = 0f;
+            SceneManager.LoadScene("EndingScene");
+        }
+
         HandleHp();
     }
 

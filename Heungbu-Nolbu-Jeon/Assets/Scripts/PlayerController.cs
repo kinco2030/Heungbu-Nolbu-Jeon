@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -107,11 +108,13 @@ public class PlayerController : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;  // 플레이어가 피해를 입었을 때 체력을 감소시킵니다.
+        StartCoroutine(GetDamage());
         UpdateHealthBar();
 
         if (currentHealth <= 0)
         {
             Debug.Log("플레이어 사망");
+            GameManager.instance.gameState = "die";
         }
     }
 
@@ -120,10 +123,24 @@ public class PlayerController : MonoBehaviour
         healthSlider.value = (float)currentHealth / (float)maxHealth;  // 체력바의 값에 현재 체력을 반영합니다.
     }
 
+    private IEnumerator GetDamage()
+    {
+        sprite.color = Color.red;
+        yield return new WaitForSeconds(0.5f);
+        sprite.color = Color.white;
+        //StopCoroutine(GetDamage());
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Bullet"))
         {
+            TakeDamage(80);
+        }
+
+        if (collision.gameObject.CompareTag("Zet"))
+        {
+            Debug.Log("젭트기 맞음");
             TakeDamage(200);
         }
     }

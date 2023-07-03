@@ -8,6 +8,8 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject pauseObj;
+    [SerializeField]
+    private GameObject restartObj;
 
     private bool isPaused = false;
 
@@ -16,6 +18,13 @@ public class UIManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             TogglePause();
+        }
+
+        if (GameManager.instance.gameState == "die")
+        {
+            // 플레이어 사망
+            Time.timeScale = 0f;
+            restartObj.SetActive(true);
         }
     }
 
@@ -58,6 +67,6 @@ public class UIManager : MonoBehaviour
 
     public void OnClickStartButton()
     {
-        SceneManager.LoadScene("StoryScene");
+        SceneManager.LoadScene("BossGame");
     }
 }

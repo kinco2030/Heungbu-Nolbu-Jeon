@@ -14,6 +14,7 @@ public class BossController : MonoBehaviour
     private BossState currentState;
 
     Animator anim;
+    SpriteRenderer sprite;
 
     public GameObject bulletObj;
 
@@ -102,7 +103,7 @@ public class BossController : MonoBehaviour
         Vector2 playerDirection = (player.position - attackPoint.position).normalized;
         GameObject bullet = Instantiate(bulletObj, attackPoint.position, attackPoint.rotation);
         Rigidbody2D bulletRigid = bullet.GetComponent<Rigidbody2D>();
-        bulletRigid.AddForce(playerDirection * 20, ForceMode2D.Impulse);
+        bulletRigid.AddForce(playerDirection * 40, ForceMode2D.Impulse);
     }
 
     private IEnumerator HealCoroutine()
@@ -131,6 +132,13 @@ public class BossController : MonoBehaviour
 
         canAttack = true;
         anim.SetBool("isAttack", false);
+    }
+
+    public IEnumerator GetDamage()
+    {
+        sprite.color = Color.red;
+        yield return new WaitForSeconds(1.0f);
+        sprite.color = Color.white;
     }
 
     public void ChangeState(BossState newState)
