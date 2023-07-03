@@ -9,8 +9,10 @@ public class GameManager : MonoBehaviour
     [Header(" - - - - UI - - - - ")]
     [SerializeField]
     private Slider bossHpBar;
+    [SerializeField]
+    private GameObject winText;
 
-    public float bossMaxHp = 2000;
+    public float bossMaxHp = 10000;
     public float curHp;
 
     public string gameState = "playing";
@@ -49,11 +51,19 @@ public class GameManager : MonoBehaviour
         else
         {
             curHp = 0;
-            Time.timeScale = 0f;
-            SceneManager.LoadScene("EndingScene");
         }
 
+        if (curHp == 0)
+        {
+            winText.SetActive(true);
+            Invoke("GoToEnding", 5.0f);
+        }
         HandleHp();
+    }
+
+    private void GoToEnding()
+    {
+        SceneManager.LoadScene("EndingScene");
     }
 
     public void HandleHp()

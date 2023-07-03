@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BossController : MonoBehaviour
 {
@@ -33,6 +34,9 @@ public class BossController : MonoBehaviour
 
     private bool canAttack = true;
     private bool canHeal = true;
+
+    public GameObject zetObj1;
+    public GameObject zetObj2;
 
     private void Start()
     {
@@ -86,6 +90,10 @@ public class BossController : MonoBehaviour
         {
             // 보스 죽을 때 실행할 로직
             Debug.Log("보스 죽음");
+            StopAllCoroutines();
+            Destroy(gameObject);
+            Destroy(zetObj1);
+            Destroy(zetObj2);
         }
     }
 
