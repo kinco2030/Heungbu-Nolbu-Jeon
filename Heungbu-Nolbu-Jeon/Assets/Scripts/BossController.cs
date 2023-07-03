@@ -8,11 +8,12 @@ public class BossController : MonoBehaviour
     {
         Move,
         BasicAttack,
-        Heal,
-        Zet     // 제ㅂ트기 스킬 
+        Heal
     }
 
     private BossState currentState;
+
+    Animator anim;
 
     public GameObject bulletObj;
 
@@ -35,6 +36,11 @@ public class BossController : MonoBehaviour
     private void Start()
     {
         currentState = BossState.Move;
+    }
+
+    private void Awake()
+    {
+        anim = GetComponent<Animator>();
     }
 
     private void Update()
@@ -65,23 +71,14 @@ public class BossController : MonoBehaviour
             case BossState.Heal:
                 // 한약마시기
                 break;
-            case BossState.Zet:
-                // skill : 제ㅂ트기
-                break;
         }
 
         if (GameManager.instance.curHp <= 1000.0f && currentState != BossState.Heal && canHeal)
         {
             Debug.Log("스킬! 한약마시기!");
+            anim.SetBool("isHeal", true);
             ChangeState(BossState.Heal);
             StartCoroutine(HealCoroutine());
-        }
-
-        if (GameManager.instance.curHp <= 1200.0f)
-        {
-            Debug.Log("스킬 제ㅂ트기!!");
-            gameObject.SetActive(false);
-            ChangeState(BossState.Zet);
         }
 
         if (GameManager.instance.curHp == 0)
@@ -111,7 +108,7 @@ public class BossController : MonoBehaviour
     private IEnumerator HealCoroutine()
     {
         while (currentState == BossState.Heal)
-        {   
+        {
             GameManager.instance.curHp += 400;
             canHeal = false;
             GameManager.instance.curHp = Mathf.Clamp(GameManager.instance.curHp, 0, GameManager.instance.bossMaxHp);
@@ -119,6 +116,7 @@ public class BossController : MonoBehaviour
             Debug.Log("힐 끝남");
             GameManager.instance.HandleHp();
             yield return new WaitForSeconds(healCooldown);
+            anim.SetBool("isHeal", false);
         }
 
         ChangeState(BossState.Move);
@@ -127,10 +125,12 @@ public class BossController : MonoBehaviour
     private IEnumerator AttackCooldown()
     {
         canAttack = false;
+        anim.SetBool("isAttack", true);
 
         yield return new WaitForSeconds(attackCooldown);
 
         canAttack = true;
+        anim.SetBool("isAttack", false);
     }
 
     public void ChangeState(BossState newState)
