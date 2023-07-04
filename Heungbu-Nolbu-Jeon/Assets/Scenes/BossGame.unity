@@ -949,6 +949,7 @@ MonoBehaviour:
   healCooldown: 1
   zetObj1: {fileID: 1553853390}
   zetObj2: {fileID: 898129232}
+  zetBoomObj: {fileID: 714920081}
 --- !u!95 &321829119
 Animator:
   serializedVersion: 5
@@ -2053,8 +2054,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bossHpBar: {fileID: 154211668}
   winText: {fileID: 2059902453}
-  bossMaxHp: 10000
-  curHp: 10000
+  bossMaxHp: 2000
+  curHp: 2000
   gameState: playing
 --- !u!4 &1019688771
 Transform:
@@ -3421,7 +3422,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 8
   attackPoint: {fileID: 369132830}
-  attackRange: 5
+  attackRange: 7
   damageAmount: 10
   attackCooldown: 1
   healthSlider: {fileID: 1664678404}

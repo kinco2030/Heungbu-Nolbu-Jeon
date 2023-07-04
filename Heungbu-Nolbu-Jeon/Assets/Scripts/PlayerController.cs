@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
 
         rigid.velocity = new Vector2(h, v) * moveSpeed;
 
-        if (Input.GetKeyDown(KeyCode.Z) && canAttack)
+        if (Input.GetKeyDown(KeyCode.Space) && canAttack)
         {
             Attack();
         }
@@ -135,13 +135,13 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Bullet"))
         {
-            TakeDamage(80);
+            TakeDamage(50);
         }
 
         if (collision.gameObject.CompareTag("Zet"))
         {
             Debug.Log("Á«Æ®±â ¸ÂÀ½");
-            TakeDamage(200);
+            TakeDamage(100);
         }
     }
 }

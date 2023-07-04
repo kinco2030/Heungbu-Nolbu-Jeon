@@ -37,6 +37,7 @@ public class BossController : MonoBehaviour
 
     public GameObject zetObj1;
     public GameObject zetObj2;
+    public GameObject zetBoomObj;
 
     private void Start()
     {
@@ -85,6 +86,11 @@ public class BossController : MonoBehaviour
             ChangeState(BossState.Heal);
             StartCoroutine(HealCoroutine());
         }
+
+        //if (GameManager.instance.curHp <= 600)
+        //{
+        //    zetBoomObj.SetActive(true);
+        //}
 
         if (GameManager.instance.curHp == 0)
         {

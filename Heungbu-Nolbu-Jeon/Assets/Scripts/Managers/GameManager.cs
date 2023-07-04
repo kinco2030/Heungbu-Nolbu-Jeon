@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
     public void BossGetDamage()
     { 
         if (curHp > 0)
-            curHp -= 200;
+            curHp -= 300;
         else
         {
             curHp = 0;

@@ -67,6 +67,6 @@ public class UIManager : MonoBehaviour
 
     public void OnClickStartButton()
     {
-        SceneManager.LoadScene("BossGame");
+        SceneManager.LoadScene("StoryScene");
     }
 }
