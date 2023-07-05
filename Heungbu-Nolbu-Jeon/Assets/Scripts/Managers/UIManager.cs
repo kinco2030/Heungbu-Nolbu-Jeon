@@ -64,9 +64,4 @@ public class UIManager : MonoBehaviour
     {
         Application.Quit();
     }
-
-    public void OnClickStartButton()
-    {
-        SceneManager.LoadScene("StoryScene");
-    }
 }
