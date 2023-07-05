@@ -6,11 +6,11 @@ public class TimeController : MonoBehaviour
 {
     private void Start()
     {
-        Invoke("StopTime", 24.3f);
+        Invoke("StopTime", 17.8f);
     }
 
     private void StopTime()
     {
-        Time.timeScale = 0;
+        Time.timeScale = 0f;
     }
 }
