@@ -6,7 +6,7 @@ public class ZeptBoom : MonoBehaviour
 {
     private void Start()
     {
-        Invoke("DestoryZetpBoom", 5.0f);
+        Invoke("DestoryZetpBoom", 1.0f);
     }
 
     private void DestoryZetpBoom()

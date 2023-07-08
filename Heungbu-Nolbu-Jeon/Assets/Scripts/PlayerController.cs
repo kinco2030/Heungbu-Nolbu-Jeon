@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     public Transform playerHeadTransform;  // 플레이어 머리 위치를 참조하기 위한 Transform 컴포넌트입니다.
 
     [SerializeField]
-    private int maxHealth = 1000;          // 최대 체력값을 설정합니다.
+    private int maxHealth = 3000;          // 최대 체력값을 설정합니다.
     [SerializeField]
     private int currentHealth;            // 현재 체력값을 저장합니다.
 
@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rigid;
     Animator anim;
     SpriteRenderer sprite;
+    public AudioSource audioSource;
+    public AudioClip attackClip;
 
     private void Awake()
     {
@@ -80,6 +82,7 @@ public class PlayerController : MonoBehaviour
     {
         // 공격 쿨다운 시작
         StartCoroutine(AttackCooldown());
+        audioSource.PlayOneShot(attackClip);
 
         Collider2D[] hit = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, LayerMask.GetMask("Boss"));
         foreach (Collider2D enemy in hit)
@@ -141,7 +144,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Zet"))
         {
             Debug.Log("젭트기 맞음");
-            TakeDamage(100);
+            TakeDamage(200);
         }
     }
 }

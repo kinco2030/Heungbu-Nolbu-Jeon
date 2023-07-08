@@ -16,6 +16,8 @@ public class BossController : MonoBehaviour
 
     Animator anim;
     SpriteRenderer sprite;
+    public AudioSource audioSource;
+    public AudioClip bossAttack;
 
     public GameObject bulletObj;
 
@@ -113,7 +115,8 @@ public class BossController : MonoBehaviour
     private void Attack()
     {
         StartCoroutine(AttackCooldown());
-        
+        audioSource.PlayOneShot(bossAttack);
+
         Vector2 playerDirection = (player.position - attackPoint.position).normalized;
         GameObject bullet = Instantiate(bulletObj, attackPoint.position, attackPoint.rotation);
         Rigidbody2D bulletRigid = bullet.GetComponent<Rigidbody2D>();

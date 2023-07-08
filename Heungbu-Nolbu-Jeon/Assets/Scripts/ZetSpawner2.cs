@@ -15,6 +15,9 @@ public class ZetSpawner2 : MonoBehaviour
     [SerializeField]
     private float maxSpawnTime = 4.0f;
 
+    public AudioSource audioSource;
+    public AudioClip zetClip;
+
     private void Awake()
     {
         StartCoroutine("SpawnZet");
@@ -34,6 +37,7 @@ public class ZetSpawner2 : MonoBehaviour
             // Zet »ý¼º
             Vector3 zetPosition = new Vector3(stageData.LimitMin.x, positionY, 0);
             Instantiate(zetPrefab, zetPosition, Quaternion.identity);
+            audioSource.PlayOneShot(zetClip);
 
             float spawnTime = Random.Range(minSpawnTime, maxSpawnTime);
 
